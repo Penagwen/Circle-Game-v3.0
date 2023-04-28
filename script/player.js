@@ -7,6 +7,7 @@ class Player{
         this.radius = 10;
         this.speed = 7;
         this.color = skins[equipedSkinIndex];
+        this.immunity = false;
     }
     draw(){
         c.beginPath();
@@ -30,7 +31,15 @@ class Player{
         this.x += (Math.abs(this.velocity.x) + Math.abs(this.velocity.y) == this.speed*2) ? this.velocity.x/1.5 : this.velocity.x;
         this.y += (Math.abs(this.velocity.x) + Math.abs(this.velocity.y) == this.speed*2) ? this.velocity.y/1.5 : this.velocity.y;
     }
+    reset(){
+        this.x = canvas.width/2;
+        this.y = canvas.height/2;
+        this.velocity = {x:0, y:0};
+        this.radius = 10;
+        this.speed = 7;
+        this.immunity = false;
+    }
 }
 
-const equipedSkinIndex = 1;
+const equipedSkinIndex = 0;
 const skins = [["#eb3349", "#f45c43"], ["#ff512f", "#f09819"]]; 

@@ -1,4 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Noto+Sans+HK&family=Silkscreen&display=swap');
+
 * {
     margin: 0px;
     overflow: hidden;
+    font-family: 'Inter', sans-serif;
+}
+
+.GameInfo {
+    width: 100%;
+    height: 15%;
+    margin-top: 5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    position: fixed;
+}
+
+.flexBr{
+    flex-basis: 100%;
+}
+
+.currentWave {
+    font-size: 50px;
+}
+
+.mainMenu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    position: fixed;
+    /* half of width */
+    left: calc(50% - 300px);
+    /* half of height */
+    top: calc(50% - 200px);
+
+    background-color: black;
+    color: white;
+
+    width: 600px;
+    height: 400px;
+
+    transition: top 0.45s;
+}
+
+button {
+    margin-bottom: 15px;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem; 
+    background-color: #EF4444; 
+    color: white;
+    font-size: 1.4rem;
+    line-height: 1.25rem; 
+    width: 450px;
+    height: 50px;
+    border-radius: 360px;
+    transition: width 0.15s, height 0.15s, background-color 0.15s;
+}
+
+button:hover {
+    background-color: #f15d5d; 
+    width: 457px;
+    height: 55px;
 }

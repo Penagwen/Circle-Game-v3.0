@@ -8,10 +8,25 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="GameInfo">
+        <span class="currentWave">0</span>
+        <div class="flexBr"></div>
+        <span class="timeLeftDisplay">0.00</span>
+    </div>
     
     <canvas></canvas>
 
-    <script src="player.js"></script>
-    <script src="index.js"></script>
+    <div class="mainMenu">
+        <div class="highestWave" style="font-size: xxx-large; margin-top: 20px;">0</div>
+        <span style="margin-bottom: 65px;">Highest Wave</span>
+        <button class="button" onclick="start();">Start</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js" integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="script/powerup.js"></script>
+    <script src="script/player.js"></script>
+    <script src="script/enemy.js"></script>
+    <script src="script/index.js"></script>
 </body>
 </html>
