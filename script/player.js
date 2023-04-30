@@ -8,6 +8,12 @@ class Player{
         this.speed = 7;
         this.color = skins[equipedSkinIndex];
         this.immunity = false;
+
+        this.direction = {x:0, y:-1};
+        this.dashCooldown = 1500;
+        this.dashDuration = 300;
+        this.timeSeinceLastDash = 0;
+        this.dashActive = false;
     }
     draw(){
         c.beginPath();
@@ -23,13 +29,44 @@ class Player{
 
         this.velocity.y = 0;
         this.velocity.x = 0;
-        if(keys[controls.up].pressed && this.y - this.speed - this.radius/2 > 0){ this.velocity.y -= this.speed; }
-        if(keys[controls.down].pressed && this.y + this.speed + this.radius/2 < canvas.height){ this.velocity.y += this.speed; }
-        if(keys[controls.left].pressed && this.x - this.speed - this.radius/2 > 0){ this.velocity.x -= this.speed; }
-        if(keys[controls.right].pressed && this.x + this.speed + this.radius/2 < canvas.width){ this.velocity.x += this.speed; }
+        if(!this.dashActive){
+            if(keys[controls.up].pressed && this.y - this.speed - this.radius/2 > 0){ 
+                this.velocity.y -= this.speed;
+                this.direction.y = -1; 
+            }else if(!keys[controls.down].pressed){ this.direction.y = 0; }
+            if(keys[controls.down].pressed && this.y + this.speed + this.radius/2 < canvas.height){ 
+                this.velocity.y += this.speed;
+                this.direction.y = 1; 
+            }else if(!keys[controls.up].pressed){ this.direction.y = 0; }
+            if(keys[controls.left].pressed && this.x - this.speed - this.radius/2 > 0){ 
+                this.velocity.x -= this.speed; 
+                this.direction.x = -1; 
+            }else if(!keys[controls.right].pressed){ this.direction.x = 0; }
+            if(keys[controls.right].pressed && this.x + this.speed + this.radius/2 < canvas.width){ 
+                this.velocity.x += this.speed; 
+                this.direction.x = 1; 
+            }else if(!keys[controls.left].pressed){ this.direction.x = 0; }
+        }
+
+        if(keys[controls.dash].pressed && Date.now() - this.timeSeinceLastDash > this.dashCooldown){
+            this.timeSeinceLastDash = Date.now();
+            this.dashActive = true;
+            this.dash();
+        }else if(this.dashActive && Date.now() - this.timeSeinceLastDash < this.dashDuration){
+            this.dash();
+        }else{
+            this.dashActive = false;
+        }
 
         this.x += (Math.abs(this.velocity.x) + Math.abs(this.velocity.y) == this.speed*2) ? this.velocity.x/1.5 : this.velocity.x;
         this.y += (Math.abs(this.velocity.x) + Math.abs(this.velocity.y) == this.speed*2) ? this.velocity.y/1.5 : this.velocity.y;
+    }
+    dash(){
+        let dashSpeed = 17,
+            halfSpeed = 1;
+        if(Math.abs(this.direction.x) + Math.abs(this.direction.y) == 2){ halfSpeed = 2; }
+        this.x += (this.x + this.direction.x*dashSpeed > this.radius/2 && this.x + this.direction.x*dashSpeed < canvas.width-this.radius/2) ? this.direction.x*dashSpeed/halfSpeed : 0;
+        this.y += (this.y + this.direction.y*dashSpeed > this.radius/2 && this.y + this.direction.y*dashSpeed < canvas.height-this.radius/2) ? this.direction.y*dashSpeed/halfSpeed : 0;
     }
     reset(){
         this.x = canvas.width/2;
