@@ -52,7 +52,10 @@ function Update(){
     c.fillStyle = background;
     c.fillRect(0, 0, canvas.width, canvas.height);
 
-    currentScore ++;
+    if(frame%5){
+        currentScore ++;
+    }
+    
     pointsDisplay.innerHTML = `Points - ${currentScore}`;
 
     // reset combo
