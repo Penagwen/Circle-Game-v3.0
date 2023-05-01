@@ -29,6 +29,16 @@ class NormalEnemy extends Enemy{
         c.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
         c.fillStyle = "black";
         c.fill();
+
+        if(Math.random() > 0.99){
+            this.changeDirections();
+        }
+    }
+    changeDirections(){
+        const angle = Math.atan2(player.y - this.y, player.x - this.x)
+
+        this.velocity.x = Math.cos(angle);
+        this.velocity.y = Math.sin(angle);
     }
 }
 

@@ -27,6 +27,27 @@
     transition: top 0.45s;
 }
 
+.pointsDisplay {
+    position: fixed;
+    left: 4px;
+    top: 4px;
+}
+
+.dashCooldown {
+    position: fixed;
+    left: 6px;
+    bottom: 6px;
+    width: 140px;
+    height: 15px;
+    background-color: white;
+    border: 3px solid black;
+}
+
+.dashCooldownPercentage {
+    height: 100%;
+    background-color: lightskyblue;
+}
+
 button {
     margin-bottom: 15px;
     padding-top: 0.75rem;

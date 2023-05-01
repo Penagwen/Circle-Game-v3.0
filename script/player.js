@@ -9,9 +9,9 @@ class Player{
         this.color = skins[equipedSkinIndex];
         this.immunity = false;
 
-        this.direction = {x:0, y:-1};
-        this.dashCooldown = 1500;
-        this.dashDuration = 300;
+        this.direction = {x:0, y:0};
+        this.dashCooldown = 850;
+        this.dashDuration = 175;
         this.timeSeinceLastDash = 0;
         this.dashActive = false;
     }
@@ -32,25 +32,23 @@ class Player{
         if(!this.dashActive){
             if(keys[controls.up].pressed && this.y - this.speed - this.radius/2 > 0){ 
                 this.velocity.y -= this.speed;
-                this.direction.y = -1; 
-            }else if(!keys[controls.down].pressed){ this.direction.y = 0; }
+            }
             if(keys[controls.down].pressed && this.y + this.speed + this.radius/2 < canvas.height){ 
                 this.velocity.y += this.speed;
-                this.direction.y = 1; 
-            }else if(!keys[controls.up].pressed){ this.direction.y = 0; }
+            }
             if(keys[controls.left].pressed && this.x - this.speed - this.radius/2 > 0){ 
                 this.velocity.x -= this.speed; 
-                this.direction.x = -1; 
-            }else if(!keys[controls.right].pressed){ this.direction.x = 0; }
+            }
             if(keys[controls.right].pressed && this.x + this.speed + this.radius/2 < canvas.width){ 
                 this.velocity.x += this.speed; 
-                this.direction.x = 1; 
-            }else if(!keys[controls.left].pressed){ this.direction.x = 0; }
+            }
         }
 
         if(keys[controls.dash].pressed && Date.now() - this.timeSeinceLastDash > this.dashCooldown){
             this.timeSeinceLastDash = Date.now();
             this.dashActive = true;
+            this.direction.x = Math.sign(this.velocity.x);
+            this.direction.y = Math.sign(this.velocity.y);
             this.dash();
         }else if(this.dashActive && Date.now() - this.timeSeinceLastDash < this.dashDuration){
             this.dash();
