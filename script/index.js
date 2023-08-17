@@ -146,6 +146,7 @@ function endgame(){
 
     mainMenu.style.visibility = "visible";
 
+    player.currExp += currentScore;
     enemies = [];
     powerups = [];
     particles = [];
