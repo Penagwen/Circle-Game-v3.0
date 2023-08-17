@@ -14,6 +14,12 @@ class Player{
         this.dashDuration = 175;
         this.timeSeinceLastDash = 0;
         this.dashActive = false;
+
+        this.findNeededExp = (level) => Math.floor(1000*(Math.pow((1+0.15), level)));
+
+        this.level = 0;
+        this.currExp = 0;
+        this.neededExp = this.findNeededExp(this.level+1);
     }
     draw(){
         c.beginPath();
@@ -73,6 +79,21 @@ class Player{
         this.radius = 10;
         this.speed = 7;
         this.immunity = false;
+
+        // check if level up
+        while(this.currExp >= this.neededExp){
+            this.level ++;
+            this.currExp = this.currExp - this.neededExp;
+            this.neededExp = this.findNeededExp(this.level+1); 
+        }   
+
+        gsap.to(".levelPercentage",  {
+            width: this.currExp/this.neededExp*450,
+            duration: 0.5,
+        });
+
+        document.querySelector(".exp").innerHTML = `${this.currExp} / ${this.neededExp}`;
+        document.querySelector(".playerLevel").innerHTML = this.level;
     }
 }
 
