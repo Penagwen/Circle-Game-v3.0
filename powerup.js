@@ -3,13 +3,16 @@ class Powerup{
         this.x = x;
         this.y = y;
         this.color = color;
-        this.radius = 12;
+        this.radius = 0;
         this.image = new Image();
         this.image.onload = () => {
             this.loaded = true;
         }
         this.image.src = icon;
         this.loaded = false;
+        gsap.to(this, ({
+            radius: 12,
+        })); 
     }
     draw(){
         c.beginPath();
@@ -60,6 +63,19 @@ class Stoptime extends Powerup{
         });
     }
     activate(){
-
+        puaseEnemies = true;
+        setTimeout(() => {
+            puaseEnemies = false;
+        }, stopTimeDurration);
     }
 }
+
+const typesOfPowerups = ["new Stoptime({x:x, y:y})", "new Teleport({x:x, y:y})"];
+
+function spawnRandomPowerUp(){
+    const x = getRandomNumber(0, canvas.width), 
+          y = getRandomNumber(0, canvas.height),
+          randomPowerUp = Math.floor(getRandomNumber(0, typesOfPowerups.length));
+    powerups.push(eval(typesOfPowerups[randomPowerUp]));
+}
+

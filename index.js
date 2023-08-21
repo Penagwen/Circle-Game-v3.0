@@ -39,12 +39,17 @@ const player = new Player({x:canvas.width/2, y:canvas.height/2});
 let powerups = [];
 let enemies = [];
 let particles = [];
+let projectiles = [];
 
 let currentScore = 0;
 let combo = 1;
 let comboTimer = 0;
 
 let enemySpawnRate = 1.8;
+let powerupSpawnRate = 0.15;
+
+let stopTimeDurration = 5000;
+let puaseEnemies = false;
 
 let frame;
 function Update(){
@@ -52,7 +57,7 @@ function Update(){
     c.fillStyle = background;
     c.fillRect(0, 0, canvas.width, canvas.height);
 
-    if(frame%5){
+    if(frame%5 && !puaseEnemies){
         currentScore ++;
     }
     
@@ -66,8 +71,13 @@ function Update(){
     // dash cooldown
     dashCooldown.style.width = `${Math.min(((Date.now() - player.timeSeinceLastDash) / player.dashCooldown), 1) * 140}px`;
 
-    if(randomChance(enemySpawnRate)){
+    if(randomChance(enemySpawnRate) && !puaseEnemies){
         spawnEnemy();
+    }
+
+    // spawn power-ups
+    if(randomChance(powerupSpawnRate) && !puaseEnemies){
+        spawnRandomPowerUp();
     }
 
     enemies.forEach((enemy, index) => {
@@ -79,7 +89,7 @@ function Update(){
         }
 
         // check if the player colides with the enemy
-        if(checkCollision(player.x, player.y, player.radius, enemy.x, enemy.y, enemy.radius)){
+        if(checkCollision(player.x, player.y, player.radius, enemy.x, enemy.y, enemy.radius*1.2)){
             if(player.dashActive){
                setTimeout(() => {
                   enemies.splice(index, 1);
@@ -130,15 +140,29 @@ function Update(){
             }
          }
          else { particle.update(); }
-    })
+    });
+
+    projectiles.forEach((projecile, index) => {
+        if(projecile.x + projecile.radius < -40 || projecile.x - projecile.radius > canvas.width+40 || projecile.y + projecile.radius < -40 || projecile.y - projecile.radius > canvas.height+40){
+            setTimeout(() => {
+                projeciles.splice(index, 1);
+            }, 0);
+        }
+        if(checkCollision(player.x, player.y, player.radius, projecile.x, projecile.y, projecile.radius) && !player.dashActive){
+            setTimeout(() => {
+                endgame();
+            }, 0);
+        }
+
+        projecile.update();
+    });
 
     player.update();
 }
 
 function start(){
-   mainMenu.style.visibility = "hidden";
-
-   Update();
+    mainMenu.style.visibility = "hidden";
+    Update();
 }
 
 function endgame(){
@@ -150,9 +174,11 @@ function endgame(){
     enemies = [];
     powerups = [];
     particles = [];
+    projectiles = [];
     currentScore = 0;
     combo = 1;
     comboTimer = 0;
+    puaseEnemies = false;
     player.reset();
 }
 

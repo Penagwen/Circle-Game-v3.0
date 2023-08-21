@@ -7,6 +7,8 @@ class Particle{
     }
     update(){
         this.draw();
+
+        if(puaseEnemies){ return; }
         this.velocity.x *= friction;
         this.velocity.y *= friction;
         this.x = this.x + this.velocity.x;

@@ -17,9 +17,10 @@ class Player{
 
         this.findNeededExp = (level) => Math.floor(1000*(Math.pow((1+0.15), level)));
 
-        this.level = 0;
-        this.currExp = 0;
-        this.neededExp = this.findNeededExp(this.level+1);
+        this.level = savedLevel;
+        this.currExp = savedCurrExp;
+        this.neededExp = savedCurrExp == 0 ? this.findNeededExp(this.level+1) : savedNeededExp;
+        document.querySelector(".exp").innerHTML = `${this.currExp} / ${this.neededExp}`;
     }
     draw(){
         c.beginPath();
@@ -80,12 +81,28 @@ class Player{
         this.speed = 7;
         this.immunity = false;
 
-        // check if level up
-        while(this.currExp >= this.neededExp){
-            this.level ++;
-            this.currExp = this.currExp - this.neededExp;
-            this.neededExp = this.findNeededExp(this.level+1); 
-        }   
+        try {
+            // check if level up
+            while(this.currExp >= this.neededExp){
+                this.level ++;
+                this.currExp = this.currExp - this.neededExp;
+                this.neededExp = this.findNeededExp(this.level+1); 
+                SaveData("level", this.level); 
+                SaveData("currExp", this.currExp); 
+                SaveData("neededExp", this.neededExp); 
+
+
+                const levelUpText = document.createElement("li");
+                levelUpText.innerHTML = "Leveled Up"
+                document.querySelector(".levelUpNotifier").appendChild(levelUpText);
+                setTimeout(() => {
+                    levelUpText.style.display = "none";
+                }, 3000);
+            }   
+    
+        } catch (error) {
+            alert(error);
+        }
 
         gsap.to(".levelPercentage",  {
             width: this.currExp/this.neededExp*450,

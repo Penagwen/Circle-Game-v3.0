@@ -7,7 +7,7 @@
     <title>O</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body onload="initData();">
     
     <div class="gameInfo">
         <span class="pointsDisplay">Points - 0</span>
@@ -19,11 +19,16 @@
     <div class="mainMenu">
         <button class="button" onclick="start();">Start</button>
         
-        <span class="level"><div class="playerLevel">0</div><div class="levelBar"><div class="expContainer"><div class="exp">0 / 0</div></div><div class="levelPercentage"></div></span>
+        <ul class="levelUpNotifier"></ul><br>
+        <span class="level">
+            <div class="playerLevel">0</div><div class="levelBar"><div class="expContainer"><div class="exp">0 / 0</div></div><div class="levelPercentage"></div>
+        </span>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js" integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <script src="script/cookies.js"></script>
+    <script src="script/projectile.js"></script>
     <script src="script/particle.js"></script>
     <script src="script/powerup.js"></script>
     <script src="script/player.js"></script>
