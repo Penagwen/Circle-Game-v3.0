@@ -3,12 +3,16 @@ let savedCurrExp = 0;
 let savedNeededExp = 0;
 
 function initData(){
-    if(getCookie("level") == null){document.cookie = "level=0; expires=Wed, 18 Dec 4000 12:00:00 GMT;";}
-    else{savedLevel = getCookie("level");}
-    if(getCookie("currExp") == null){document.cookie = "currExp=0; expires=Wed, 18 Dec 4000 12:00:00 GMT;";}
-    else{savedCurrExp = getCookie("currExp");}
-    if(getCookie("neededExp") == null){document.cookie = "neededExp=0; expires=Wed, 18 Dec 4000 12:00:00 GMT;";}
-    else{savedNeededExp = getCookie("neededExp");}
+    try {
+        if(getCookie("level") == null){document.cookie = "level=0; expires=Wed, 18 Dec 4000 12:00:00 GMT;";}
+        else{savedLevel = getCookie("level");}
+        if(getCookie("currExp") == null){document.cookie = "currExp=0; expires=Wed, 18 Dec 4000 12:00:00 GMT;";}
+        else{savedCurrExp = getCookie("currExp");}
+        if(getCookie("neededExp") == null){document.cookie = "neededExp=0; expires=Wed, 18 Dec 4000 12:00:00 GMT;";}
+        else{savedNeededExp = getCookie("neededExp");}   
+    } catch (error) {
+        alert(error)
+    }
 }
 
 function SaveData(v, data){
@@ -27,3 +31,5 @@ function getCookie(name) {
     }
     return null;
 } 
+
+initData();
